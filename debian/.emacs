@@ -6,6 +6,7 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(custom-enabled-themes nil)
+ '(desktop-restore-eager 1)
  '(desktop-save-mode t)
  '(indicate-buffer-boundaries 'right)
  '(package-selected-packages
