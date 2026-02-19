@@ -12,10 +12,11 @@
    '(adoc-mode afternoon-theme cmake-mode company consult consult-company
 	       consult-eglot consult-flycheck d-mode dune dune-format
 	       editorconfig evil evil-collection gnuplot iceberg-theme
-	       imenu-list kuronami-theme laguna-theme markdown-mode
-	       meson-mode metalheart-theme northcode-theme ocaml-eglot
-	       rust-mode starlit-theme tomorrow-night-deepblue-theme
-	       tuareg urgrep wgrep which-key))
+	       imenu-list kuronami-theme laguna-theme magit
+	       markdown-mode meson-mode metalheart-theme
+	       northcode-theme ocaml-eglot rust-mode starlit-theme
+	       tomorrow-night-deepblue-theme tuareg urgrep wgrep
+	       which-key))
  '(size-indication-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -79,3 +80,7 @@
 (add-hook 'tuareg-mode-hook
           (lambda ()
             (evil-local-set-key 'normal (kbd "M-o") 'tuareg-find-alternate-file)))
+
+(global-auto-revert-mode t)
+(recentf-mode 1)
+(setq recentf-max-saved-items 50)
