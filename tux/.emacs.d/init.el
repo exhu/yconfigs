@@ -30,6 +30,8 @@
 
 (add-hook 'd-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'eglot-ensure)
+; make _ be part of word
+(add-hook 'c-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 
 (require 'eglot)
 (setq project-vc-extra-root-markers '("Cargo.toml" "dub.json" "meson.build" "dune-project"))
