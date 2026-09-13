@@ -1,3 +1,4 @@
+
 ;;; -*- lexical-binding: t -*-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -6,10 +7,12 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(custom-enabled-themes nil)
+ '(custom-safe-themes
+   '("95b51aab1acd95ebcc7f47a60dd02d1a6b4b2c4aa68027b6d4138c2f70c583ae" default))
  '(desktop-save-mode t)
  '(indicate-buffer-boundaries 'right)
  '(package-selected-packages
-   '(adoc-mode afternoon-theme cmake-mode company consult consult-company consult-eglot consult-flycheck d-mode dune dune-format editorconfig evil evil-collection gnuplot iceberg-theme imenu-list kuronami-theme laguna-theme magit markdown-mode meson-mode metalheart-theme northcode-theme ocaml-eglot rust-mode starlit-theme tomorrow-night-deepblue-theme tuareg urgrep wgrep which-key))
+   '(glsl-mode clang-format adoc-mode afternoon-theme cmake-mode company consult consult-company consult-eglot consult-flycheck d-mode dune dune-format editorconfig evil evil-collection gnuplot iceberg-theme imenu-list kuronami-theme laguna-theme magit markdown-mode meson-mode metalheart-theme northcode-theme ocaml-eglot rust-mode starlit-theme tomorrow-night-deepblue-theme tuareg urgrep wgrep which-key))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 
@@ -18,7 +21,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 139 :width normal)))))
+ '(default ((t (:family "Google Sans Code" :foundry "GOOG" :slant normal :weight regular :height 151 :width normal)))))
 
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
@@ -30,11 +33,13 @@
 
 (add-hook 'd-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'eglot-ensure)
-; make _ be part of word
+; make _ (underscore) be part of word
 (add-hook 'c-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'd-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 
 (require 'eglot)
-(setq project-vc-extra-root-markers '("Cargo.toml" "dub.json" "meson.build" "dune-project"))
+(setq project-vc-extra-root-markers '("Cargo.toml" "dub.json" "dub.sdl" "meson.build" "dune-project"))
 ;(setq eglot-server-programs ())
 (add-to-list 'eglot-server-programs `(d-mode . ("serve-d")))
 
