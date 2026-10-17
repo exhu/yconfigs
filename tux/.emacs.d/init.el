@@ -1,4 +1,3 @@
-
 ;;; -*- lexical-binding: t -*-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -13,6 +12,12 @@
  '(indicate-buffer-boundaries 'right)
  '(package-selected-packages
    '(glsl-mode clang-format adoc-mode afternoon-theme cmake-mode company consult consult-company consult-eglot consult-flycheck d-mode dune dune-format editorconfig evil evil-collection gnuplot iceberg-theme imenu-list kuronami-theme laguna-theme magit markdown-mode meson-mode metalheart-theme northcode-theme ocaml-eglot rust-mode starlit-theme tomorrow-night-deepblue-theme tuareg urgrep wgrep which-key))
+ '(safe-local-variable-values
+   '((eval let
+	   ((root
+	     (locate-dominating-file default-directory ".dir-locals.el")))
+	   (setq-local compile-command
+		       (format "ninja -C %s_build" root)))))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 
@@ -57,9 +62,17 @@
 
 (editorconfig-mode 1)
 
+
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (evil-local-set-key 'normal (kbd "M-o") 'ff-find-related-file)))
+
 (add-hook 'c-mode-hook
           (lambda ()
-            (evil-local-set-key 'normal (kbd "M-o") 'ff-find-related-file)))
+            (evil-local-set-key 'normal (kbd "M-o")
+                                (lambda ()
+                                  (interactive)
+                                  (ff-find-related-file nil t)))))
 
 (add-hook 'c-mode-hook 'eglot-ensure)
 
