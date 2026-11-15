@@ -99,3 +99,52 @@
 (global-auto-revert-mode t)
 (recentf-mode 1)
 (setq recentf-max-saved-items 50)
+
+; ---
+(defun copy-current-file-path ()
+  "Copy the current buffer's full file path to the clipboard."
+  (interactive)
+  (if buffer-file-name
+      (progn
+        (kill-new (expand-file-name buffer-file-name))
+        (message "Copied: %s" (expand-file-name buffer-file-name)))
+    (user-error "Current buffer is not visiting a file")))
+
+(global-set-key (kbd "C-c p") #'copy-current-file-path)
+
+; disable ~ files
+(setq make-backup-files nil)
+
+; -- d module string generation
+
+(defun my-d-insert-module-decl ()
+  "Insert the D module declaration at point based on file path relative to 'source/'."
+  (interactive)
+  (let* ((file (buffer-file-name))
+         (mod-name
+          (if (not file)
+              "unnamed"
+            (let* ((true-path (file-truename file))
+                   (dir (file-name-directory true-path))
+                   (base (file-name-base true-path))
+                   (source-root nil)
+                   (curr dir))
+              ;; Traverse upwards to locate a parent directory named "source"
+              (while (and curr
+                          (not (string-equal curr (directory-file-name curr)))
+                          (not source-root))
+                (if (string-equal (file-name-nondirectory (directory-file-name curr)) "source")
+                    (setq source-root curr)
+                  (let ((parent (file-name-directory (directory-file-name curr))))
+                    (setq curr (if (string-equal parent curr) nil parent)))))
+              ;; Construct module dot-path or fallback to base filename
+              (if (not source-root)
+                  base
+                (let* ((rel-path (file-relative-name true-path source-root))
+                       (without-ext (file-name-sans-extension rel-path))
+                       (parts (split-string without-ext "[/\\]+" t)))
+                  (mapconcat #'identity parts ".")))))))
+    (insert (format "module %s;\n" mod-name))))
+
+(with-eval-after-load 'd-mode
+  (define-key d-mode-map (kbd "C-c m d m") #'my-d-insert-module-decl))
