@@ -155,7 +155,8 @@
   (server-start))
 
 ;; snippets
-
+(require 'yasnippet)
+(yas-reload-all)
 ;; Enable for both traditional and tree-sitter C++ modes.
 (add-hook 'c++-mode-hook #'yas-minor-mode)
 (add-hook 'c++-ts-mode-hook #'yas-minor-mode)
