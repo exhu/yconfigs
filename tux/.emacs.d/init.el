@@ -148,3 +148,35 @@
 
 (with-eval-after-load 'd-mode
   (define-key d-mode-map (kbd "C-c m d m") #'my-d-insert-module-decl))
+
+;; run as server
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
+;; snippets
+
+;; Enable for both traditional and tree-sitter C++ modes.
+(add-hook 'c++-mode-hook #'yas-minor-mode)
+(add-hook 'c++-ts-mode-hook #'yas-minor-mode)
+
+;; Leave ordinary TAB behavior alone outside active snippets.
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+
+;; Explicit manual triggers.
+(define-key yas-minor-mode-map (kbd "C-c s") #'yas-insert-snippet)
+(define-key yas-minor-mode-map (kbd "C-c e") #'yas-expand)
+
+(dolist (mode '(c++-mode c++-ts-mode))
+  (yas-define-snippets
+   mode
+   '(("once" "#pragma once\n$0" "pragma once")
+     ("if" "if (${1:condition})\n{\n    $0\n}" "if block")
+     ("else" "else\n{\n    $0\n}" "else block")
+     ("class" "class ${1:name} final\n{\npublic:\n    $0\n};" "class")
+     ("struct" "struct ${1:name}\n{\n    $0\n};" "struct")
+
+     )))
+
+;; end of snippets
