@@ -33,6 +33,7 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 
 (setq evil-want-keybinding nil)
+(setq evil-search-module 'evil-search)
 (require 'evil)
 (evil-mode 1)
 
